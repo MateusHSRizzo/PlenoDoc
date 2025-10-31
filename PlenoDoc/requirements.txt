@@ -1,0 +1,21 @@
+# Requisitos principais da aplicação
+streamlit
+langchain
+langchain-core
+langchain-community
+langchain-groq
+langchain-openai
+pydantic
+
+# Requisitos para vetorização e busca
+faiss-cpu  
+sentence-transformers
+
+# Requisitos para processamento de documentos
+pypdf
+python-docx
+pdfminer.six
+unstructured  # Requerido pelos loaders UnstructuredCSVLoader e UnstructuredWordDocumentLoader
+
+# Utilitários
+python-dotenv
