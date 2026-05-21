@@ -4,12 +4,14 @@ import os
 # Configuração da página DEVE ser a primeira instrução Streamlit
 st.set_page_config(page_title="PlenoDoc", page_icon="📑", layout="wide")
 
-from langchain.memory import ConversationBufferMemory
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 from langchain.chains import create_retrieval_chain, create_history_aware_retriever
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+# Importação moderna de memória do LangChain Core
+from langchain_core.messages import HumanMessage, AIMessage
 
 from auth import pagina_login
 from data_processing import adicionar_ao_indice, reconstruir_indice, inicializar_retriever
@@ -20,9 +22,9 @@ MODELOS_DISPONIVEIS = {
     'OpenAI (Premium)': {'versao_api': ['gpt-4o-mini', 'gpt-3.5-turbo'], 'chat': ChatOpenAI}
 }
 
-# Inicialização de Estado
+# Inicialização de Estado (Sem dependência do módulo legado de memory)
 if 'logged_in' not in st.session_state: st.session_state.logged_in = False
-if 'memoria' not in st.session_state: st.session_state.memoria = ConversationBufferMemory(return_messages=True, memory_key="chat_history")
+if 'chat_history' not in st.session_state: st.session_state.chat_history = []
 if 'chain' not in st.session_state: st.session_state.chain = None
 
 def pagina_chat():
@@ -30,8 +32,10 @@ def pagina_chat():
     st.write("Módulo de Consulta Automatizada de Suporte Técnico.")
     st.divider()
     
-    for message in st.session_state.memoria.chat_memory.messages:
-        with st.chat_message(message.type):
+    # Exibe o histórico nativo da conversa
+    for message in st.session_state.chat_history:
+        tipo_autor = "user" if isinstance(message, HumanMessage) else "ai"
+        with st.chat_message(tipo_autor):
             st.markdown(message.content)
     
     if not st.session_state.chain:
@@ -45,10 +49,15 @@ def pagina_chat():
         
         with st.spinner("Buscando referências na base..."):
             try:
-                chat_history = st.session_state.memoria.load_memory_variables({})['chat_history']
-                resposta = st.session_state.chain.invoke({"input": input_usuario, "chat_history": chat_history})
+                # Injeta a lista de mensagens nativa diretamente no RAG
+                resposta = st.session_state.chain.invoke({
+                    "input": input_usuario, 
+                    "chat_history": st.session_state.chat_history
+                })
                 
-                st.session_state.memoria.save_context({"input": input_usuario}, {"output": resposta["answer"]})
+                # Salva o novo contexto da interação
+                st.session_state.chat_history.append(HumanMessage(content=input_usuario))
+                st.session_state.chat_history.append(AIMessage(content=resposta["answer"]))
                 
                 with st.chat_message("ai"):
                     st.markdown(resposta["answer"])
@@ -101,7 +110,6 @@ def painel_documentos():
                         sucesso, msg = reconstruir_indice(caminhos_restantes)
                         if sucesso:
                             st.toast(f"Arquivo removido da base.", icon="✅")
-                            # Reseta a chain para forçar nova leitura do retriever na próxima inicialização
                             st.session_state.chain = None 
                             st.rerun()
                         else:
@@ -168,7 +176,7 @@ def sidebar():
     st.sidebar.divider()
     if st.sidebar.button("Encerrar Sessão", use_container_width=True):
         st.session_state.logged_in = False
-        st.session_state.memoria.clear()
+        st.session_state.chat_history = []
         st.session_state.chain = None
         st.rerun()
 
