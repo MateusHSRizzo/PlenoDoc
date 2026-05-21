@@ -2,7 +2,7 @@ import os
 import shutil
 import streamlit as st
 from langchain_community.vectorstores import FAISS
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from loaders import leitura_pdf, leitura_csv, leitura_txt, leitura_docx
 
@@ -12,7 +12,6 @@ NOME_MODELO_EMBEDDINGS = "all-MiniLM-L6-v2"
 
 @st.cache_resource
 def carregar_embeddings():
-    """Mantém o modelo de embeddings em cache para evitar recarregamento excessivo de CPU."""
     return HuggingFaceEmbeddings(model_name=NOME_MODELO_EMBEDDINGS, model_kwargs={'device': 'cpu'})
 
 def carregar_documentos(caminhos_arquivos):
@@ -35,7 +34,6 @@ def fracionar_documentos(documentos):
     return divisor.split_documents(documentos)
 
 def adicionar_ao_indice(caminhos_arquivos):
-    """Processa novos arquivos e adiciona ao índice existente."""
     if not caminhos_arquivos:
         return False, "Nenhum arquivo fornecido."
 
@@ -57,7 +55,6 @@ def adicionar_ao_indice(caminhos_arquivos):
     return True, "Documentos indexados com sucesso."
 
 def reconstruir_indice(caminhos_arquivos):
-    """Apaga o índice atual e recria do zero. Essencial para remoção de documentos."""
     if os.path.exists(CAMINHO_FAISS):
         shutil.rmtree(CAMINHO_FAISS)
 
@@ -76,7 +73,6 @@ def reconstruir_indice(caminhos_arquivos):
     return True, "Índice reconstruído com sucesso."
 
 def inicializar_retriever():
-    """Carrega o retriever do disco para consulta do LLM."""
     if os.path.exists(os.path.join(CAMINHO_FAISS, "index.faiss")):
         try:
             embeddings = carregar_embeddings()
