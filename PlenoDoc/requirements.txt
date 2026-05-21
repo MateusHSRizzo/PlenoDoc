@@ -3,6 +3,7 @@ langchain
 langchain-core
 langchain-community
 langchain-classic
+langchain-text-splitters
 langchain-groq
 langchain-openai
 langchain-huggingface
