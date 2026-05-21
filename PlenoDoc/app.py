@@ -6,11 +6,12 @@ st.set_page_config(page_title="PlenoDoc", page_icon="📑", layout="wide")
 
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
-from langchain.chains import create_retrieval_chain, create_history_aware_retriever
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
-# Importação moderna de memória do LangChain Core
+# IMPORTAÇÕES CORRIGIDAS PARA O LANGCHAIN 1.X
+from langchain_classic.chains import create_retrieval_chain, create_history_aware_retriever
+from langchain_classic.chains.combine_documents import create_stuff_documents_chain
+
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
 
 from auth import pagina_login
@@ -22,7 +23,7 @@ MODELOS_DISPONIVEIS = {
     'OpenAI (Premium)': {'versao_api': ['gpt-4o-mini', 'gpt-3.5-turbo'], 'chat': ChatOpenAI}
 }
 
-# Inicialização de Estado (Sem dependência do módulo legado de memory)
+# Inicialização de Estado
 if 'logged_in' not in st.session_state: st.session_state.logged_in = False
 if 'chat_history' not in st.session_state: st.session_state.chat_history = []
 if 'chain' not in st.session_state: st.session_state.chain = None
