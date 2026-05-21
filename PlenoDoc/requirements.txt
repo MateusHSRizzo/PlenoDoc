@@ -2,6 +2,7 @@ streamlit
 langchain
 langchain-core
 langchain-community
+langchain-classic
 langchain-groq
 langchain-openai
 langchain-huggingface
