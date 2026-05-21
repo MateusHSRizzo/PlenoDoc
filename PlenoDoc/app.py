@@ -19,8 +19,8 @@ from data_processing import adicionar_ao_indice, reconstruir_indice, inicializar
 
 CAMINHO_DOCUMENTOS = "dados_docs"
 MODELOS_DISPONIVEIS = {
-    'Groq (Fast)': {'versao_api': ['llama3-8b-8192', 'llama3-70b-8192'], 'chat': ChatGroq},
-    'OpenAI (Premium)': {'versao_api': ['gpt-4o-mini', 'gpt-3.5-turbo'], 'chat': ChatOpenAI}
+    'Groq (Fast)': {'versao_api': ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant'], 'chat': ChatGroq},
+    'OpenAI (Premium)': {'versao_api': ['gpt-4o-mini', 'gpt-4o'], 'chat': ChatOpenAI}
 }
 
 # Inicialização de Estado
