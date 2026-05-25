@@ -1,23 +1,38 @@
-streamlit
-langchain
-langchain-core
-langchain-community
-langchain-classic
-langchain-text-splitters
-langchain-groq
-langchain-openai
-langchain-huggingface
-pydantic
+# ── Interface ─────────────────────────────────────────────────────────────
+streamlit>=1.35.0
 
-# Requisitos para vetorização e busca
-faiss-cpu  
-sentence-transformers
+# ── LangChain ─────────────────────────────────────────────────────────────
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-community>=0.2.0
+langchain-text-splitters>=0.2.0
+langchain-groq>=0.1.6
+langchain-openai>=0.1.8
+langchain-huggingface>=0.0.3
 
-# Requisitos para processamento de documentos
-pypdf
-python-docx
-pdfminer.six
-unstructured
+# ── Vetorização ───────────────────────────────────────────────────────────
+faiss-cpu>=1.8.0
+sentence-transformers>=3.0.0
 
-# Utilitários
-python-dotenv
+# ── Leitura de documentos ─────────────────────────────────────────────────
+pypdf>=4.2.0
+python-docx>=1.1.2
+pdfminer.six>=20221105
+unstructured>=0.14.0
+
+# ── Web scraping (URL loader) ─────────────────────────────────────────────
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+
+# ── Banco de dados — SQLAlchemy + drivers ─────────────────────────────────
+sqlalchemy>=2.0.0
+pymysql>=1.1.0             # MySQL / MariaDB
+psycopg2-binary>=2.9.9     # PostgreSQL
+pymssql>=2.3.0             # SQL Server (sem ODBC)
+oracledb>=2.0.0            # Oracle
+openpyxl>=3.1.0            # Export Excel
+
+# ── Utilitários ───────────────────────────────────────────────────────────
+pydantic>=2.7.0
+python-dotenv>=1.0.0       # carrega .env automaticamente
