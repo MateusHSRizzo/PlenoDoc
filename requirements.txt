@@ -36,3 +36,5 @@ openpyxl>=3.1.0            # Export Excel
 # ── Utilitários ───────────────────────────────────────────────────────────
 pydantic>=2.7.0
 python-dotenv>=1.0.0       # carrega .env automaticamente
+pandas>=2.0.0
+graphviz>=0.20.1
