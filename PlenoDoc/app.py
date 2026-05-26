@@ -50,10 +50,24 @@ st.set_page_config(page_title="PlenoDoc", page_icon="📑", layout="wide", initi
 
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
-from langchain.chains import create_retrieval_chain, create_history_aware_retriever
-from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
+
+# Imports do LangChain com fallback para diferentes versões (0.2.x / 0.3.x)
+try:
+    from langchain.chains import create_retrieval_chain, create_history_aware_retriever
+    from langchain.chains.combine_documents import create_stuff_documents_chain
+except ImportError:
+    try:
+        from langchain_core.runnables import RunnablePassthrough
+        from langchain.chains.retrieval import create_retrieval_chain
+        from langchain.chains.history_aware_retriever import create_history_aware_retriever
+        from langchain.chains.combine_documents import create_stuff_documents_chain
+    except ImportError as e:
+        raise ImportError(
+            f"Não foi possível importar chains do LangChain: {e}. "
+            "Verifique se langchain>=0.3.0 está instalado."
+        )
 
 from config import get_settings
 from auth import pagina_login, verificar_timeout, tem_permissao, usuario_atual, painel_usuarios, verificar_rate_limit
