@@ -1,0 +1,13 @@
+# Credenciais
+.env
+config/
+
+# Gerados automaticamente
+faiss_index/
+.pleno_cache/
+logs/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
