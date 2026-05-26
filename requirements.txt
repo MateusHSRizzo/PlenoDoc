@@ -1,18 +1,28 @@
 # ── Interface ─────────────────────────────────────────────────────────────
 streamlit>=1.35.0
 
-# ── LangChain ─────────────────────────────────────────────────────────────
-langchain>=0.2.0
-langchain-core>=0.2.0
-langchain-community>=0.2.0
-langchain-text-splitters>=0.2.0
-langchain-groq>=0.1.6
-langchain-openai>=0.1.8
-langchain-huggingface>=0.0.3
+# ── Configuração / Ambiente ───────────────────────────────────────────────
+pydantic>=2.7.0,<3.0.0
+pydantic-settings>=2.3.0,<3.0.0
+python-dotenv>=1.0.0
 
-# ── Vetorização ───────────────────────────────────────────────────────────
+# ── LangChain — versões fixas e compatíveis entre si ─────────────────────
+langchain==0.3.7
+langchain-core==0.3.19
+langchain-community==0.3.7
+langchain-text-splitters==0.3.2
+langchain-groq==0.2.1
+langchain-openai==0.2.9
+langchain-huggingface==0.1.2
+
+# ── RAG: Vetorização, busca híbrida e reranking ───────────────────────────
 faiss-cpu>=1.8.0
 sentence-transformers>=3.0.0
+rank-bm25>=0.2.2
+
+# ── OCR (PDFs escaneados) — instalado via packages.txt no Cloud ───────────
+pdf2image>=1.17.0
+pytesseract>=0.3.10
 
 # ── Leitura de documentos ─────────────────────────────────────────────────
 pypdf>=4.2.0
@@ -20,21 +30,23 @@ python-docx>=1.1.2
 pdfminer.six>=20221105
 unstructured>=0.14.0
 
-# ── Web scraping (URL loader) ─────────────────────────────────────────────
+# ── Web scraping ──────────────────────────────────────────────────────────
 requests>=2.31.0
 beautifulsoup4>=4.12.0
 lxml>=5.0.0
 
-# ── Banco de dados — SQLAlchemy + drivers ─────────────────────────────────
+# ── Banco de dados ────────────────────────────────────────────────────────
 sqlalchemy>=2.0.0
-pymysql>=1.1.0             # MySQL / MariaDB
-psycopg2-binary>=2.9.9     # PostgreSQL
-pymssql>=2.3.0             # SQL Server (sem ODBC)
-oracledb>=2.0.0            # Oracle
-openpyxl>=3.1.0            # Export Excel
+pymysql>=1.1.0
+psycopg2-binary>=2.9.9
+pymssql>=2.3.0
+oracledb>=2.0.0
+openpyxl>=3.1.0
 
-# ── Utilitários ───────────────────────────────────────────────────────────
-pydantic>=2.7.0
-python-dotenv>=1.0.0       # carrega .env automaticamente
-pandas>=2.0.0
-graphviz>=0.20.1
+# ── Segurança ─────────────────────────────────────────────────────────────
+cryptography>=42.0.0
+sshtunnel>=0.4.0
+
+# ── Testes ───────────────────────────────────────────────────────────────
+pytest>=8.0.0
+pytest-cov>=5.0.0
